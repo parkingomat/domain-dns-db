@@ -1,0 +1,7 @@
+{
+  "db": "sqlite:db.sqlite3",
+  "create": "SELECT * FROM `member` ORDER BY `lastname` ASC",
+  "read": "SELECT * FROM `records`",
+  "update": "SELECT * FROM `member` ORDER BY `lastname` ASC",
+  "delete": "SELECT * FROM `member` ORDER BY `lastname` ASC"
+}
