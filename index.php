@@ -3,6 +3,7 @@
 require("load_func.php");
 
 $record_list_filtered = [];
+header('Content-Type: application/json');
 
 try {
 
@@ -14,16 +15,17 @@ try {
         'Record.php'
     ], function () {
 
-        $nameserver_list = let_json("nameserver_list.json");
+        $meta = let_json("meta.json");
+
+
+        $nameserver_list = let_json($meta->in->file);
         $data_filtered = each_func((array)$nameserver_list->nameserver_list, function ($item) {
 
-
-            $data_filtered2 = each_func($item, function ($record) {
+            $records_filtered = each_func($item, function ($record) {
 //                var_dump($record);
                 if (empty($record)) return null;
 
                 if ($record->type !== 'NS') return null;
-
 
                 return $record->target;
 //                return [
@@ -34,18 +36,18 @@ try {
 //                    'nameserver' => $record->target
 //                ];
             });
-//            var_dump("data_filtered2",$data_filtered2);
+//            var_dump("records_filtered",$records_filtered);
 
-            if (empty($data_filtered2)) return null;
+            if (empty($records_filtered)) return null;
 
-            return $data_filtered2;
+            return $records_filtered;
 
         });
 
 //        var_dump($data_filtered);
 //die;
         // encode data to json
-        echo def_json('index.json', $data_filtered);
+        echo def_json($meta->out->file, $data_filtered);
 
     });
 
